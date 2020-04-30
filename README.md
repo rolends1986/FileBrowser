@@ -1,10 +1,11 @@
 ![FileBrowser - iOS Finder-style file browser in Swift](https://cloud.githubusercontent.com/assets/889949/13035402/75e4eb00-d34f-11e5-8b92-c921ecca9300.png)
 
-[![Build Status](https://travis-ci.org/marmelroy/FileBrowser.svg?branch=master)](https://travis-ci.org/marmelroy/FileBrowser) [![Version](http://img.shields.io/cocoapods/v/FileBrowser.svg)](http://cocoapods.org/?q=FileBrowser)
+[![Build
+Status](https://travis-ci.org/Nuglif/FileBrowser.svg?branch=master)](https://travis-ci.org/Nuglif/FileBrowser) [![Version](http://img.shields.io/cocoapods/v/FileBrowser.svg)](http://cocoapods.org/?q=FileBrowser)
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 
 # FileBrowser
-iOS Finder-style file browser in Swift 4.0 with search, file previews and 3D touch. Simple and quick to use.
+iOS Finder-style file browser in Swift 5.0 with search, file previews and 3D touch. Simple and quick to use.
 
 <p align="center"><img src="http://i.giphy.com/3o6gaY6yLQkhjiok5W.gif" width="242" height="425"/></p>
 
@@ -48,6 +49,14 @@ You can also allow editing/deleting files.
 let fileBrowser = FileBrowser(initialPath: customPath, allowEditing: true)
 ```
 
+You can show/hide files and directories sizes (true by default).
+```swift
+let fileBrowser = FileBrowser(initialPath: documentsUrl,
+                                   allowEditing: true,
+                                   showCancelButton: true,
+                                   showSize: true)
+```
+
 Use the didSelectFile closure to change FileBrowser's behaviour when a file is selected.
 ```swift
 fileBrowser.didSelectFile = { (file: FBFile) -> Void in
@@ -63,8 +72,7 @@ fileBrowser.excludesFilepaths = [secretFile]
 
 ### Setting up with [CocoaPods](http://cocoapods.org/?q=FileBrowser)
 ```ruby
-source 'https://github.com/CocoaPods/Specs.git'
-pod 'FileBrowser', '~> 1.0'
+pod 'FileBrowser', git: 'https://github.com/Nuglif/FileBrowser'
 ```
 
 ### Setting up with Carthage
@@ -81,5 +89,5 @@ $ brew install carthage
 To integrate FileBrowser into your Xcode project using Carthage, specify it in your `Cartfile`:
 
 ```ogdl
-github "marmelroy/FileBrowser"
+github "Nuglif/FileBrowser"
 ```

@@ -22,31 +22,34 @@ class FileListViewController: UIViewController {
     let previewManager = PreviewManager()
     var sections: [[FBFile]] = []
     var allowEditing: Bool = false
+    var showSize: Bool = false
 
     // Search controller
     var filteredFiles = [FBFile]()
     let searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchBar.searchBarStyle = .minimal
-        searchController.searchBar.backgroundColor = UIColor.white
+        searchController.searchBar.backgroundColor = UIColor.fileBrowserBackground()
         searchController.dimsBackgroundDuringPresentation = false
         return searchController
     }()
     
     
     //MARK: Lifecycle
-    convenience init (initialPath: URL) {
-        self.init(initialPath: initialPath, showCancelButton: true)
+    convenience init (initialPath: URL, allowEditing: Bool = false) {
+        self.init(initialPath: initialPath, showCancelButton: true, allowEditing: allowEditing)
     }
     
-    convenience init (initialPath: URL, showCancelButton: Bool) {
+    convenience init (initialPath: URL, showCancelButton: Bool, allowEditing: Bool = false, showSize: Bool = false) {
         self.init(nibName: "FileBrowser", bundle: Bundle(for: FileListViewController.self))
         self.edgesForExtendedLayout = UIRectEdge()
         
         // Set initial path
         self.initialPath = initialPath
         self.title = initialPath.lastPathComponent
-        
+        self.allowEditing = allowEditing
+        self.showSize = showSize
+
         // Set search controller delegates
         searchController.searchResultsUpdater = self
         searchController.searchBar.delegate = self

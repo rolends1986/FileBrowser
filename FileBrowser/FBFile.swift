@@ -11,26 +11,39 @@ import Foundation
 /// FBFile is a class representing a file in FileBrowser
 @objc open class FBFile: NSObject {
     /// Display name. String.
-    @objc open let displayName: String
+    @objc public let displayName: String
     // is Directory. Bool.
-    open let isDirectory: Bool
+    public let isDirectory: Bool
     /// File extension.
-    open let fileExtension: String?
+    public let fileExtension: String?
     /// File attributes (including size, creation date etc).
-    open let fileAttributes: NSDictionary?
+    public let fileAttributes: NSDictionary?
     /// NSURL file path.
-    open let filePath: URL
+    public let filePath: URL
     // FBFileType
-    open let type: FBFileType
-    
-    open func delete()
-    {
-        do
-        {
-            try FileManager.default.removeItem(at: self.filePath)
+    public let type: FBFileType
+
+    // Size
+    public func size(callingQueue: DispatchQueue = DispatchQueue.main, completionHandler: @escaping (UInt64) -> Void) {
+        let queue = DispatchQueue(label: "Size calculation queue")
+        queue.async {
+            var size: UInt64 = 0
+            switch self.type {
+            case .Directory:
+                size = (try? FileManager.default.allocatedSizeOfDirectory(at: self.filePath)) ?? 0
+            default:
+                size = self.fileAttributes?.fileSize() ?? 0
+            }
+            callingQueue.async {
+                completionHandler(size)
+            }
         }
-        catch
-        {
+    }
+    
+    open func delete() {
+        do {
+            try FileManager.default.removeItem(at: self.filePath)
+        } catch {
             print("An error occured when trying to delete file:\(self.filePath) Error:\(error)")
         }
     }

@@ -48,14 +48,21 @@ open class FileBrowser: UINavigationController {
     ///   - initialPath: NSURL filepath to containing directory.
     ///   - allowEditing: Whether to allow editing.
     ///   - showCancelButton: Whether to show the cancel button.
-    public convenience init(initialPath: URL? = nil, allowEditing: Bool = false, showCancelButton: Bool = true) {
+    ///   - showSize: Whether to show size for files and directories.
+    @objc public convenience init(initialPath: URL? = nil,
+                                  allowEditing: Bool = false,
+                                  showCancelButton: Bool = true,
+                                  showSize: Bool = true) {
         
         let validInitialPath = initialPath ?? FileParser.sharedInstance.documentsURL()
         
-        let fileListViewController = FileListViewController(initialPath: validInitialPath, showCancelButton: showCancelButton)
-        fileListViewController.allowEditing = allowEditing
+        let fileListViewController = FileListViewController(initialPath: validInitialPath,
+                                                            showCancelButton: showCancelButton,
+                                                            allowEditing: allowEditing,
+                                                            showSize: showSize)
+
         self.init(rootViewController: fileListViewController)
-        self.view.backgroundColor = UIColor.white
+        self.view.backgroundColor = UIColor.fileBrowserBackground()
         self.fileList = fileListViewController
     }
 }
